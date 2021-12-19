@@ -6,6 +6,9 @@
 *.dylib
 *.idea/
 
+# Exclude folders
+/bin/
+
 # Test binary, built with `go test -c`
 *.test
 
