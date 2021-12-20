@@ -5,3 +5,7 @@ const (
 	ClientSettingsFileType = "json"
 	ClientSettingsPath     = "./config"
 )
+
+const (
+	UndefinedTextValue = "window.undefined"
+)

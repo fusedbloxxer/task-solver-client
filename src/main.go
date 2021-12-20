@@ -4,15 +4,12 @@ import (
 	"fmt"
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
-	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
-	"fyne.io/fyne/v2/theme"
-	"fyne.io/fyne/v2/widget"
 	"github.com/spf13/viper"
-	"image/color"
+	"task-solver/client/src/services"
 	"task-solver/client/src/settings"
-	"task-solver/client/src/ui/components"
+	"task-solver/client/src/ui"
 )
 
 func main() {
@@ -28,61 +25,34 @@ func main() {
 	application := *temp
 	window := createWindow(application)
 
-	// Add the left panel containing the task functionality
-	taskListSeparatorContainer := createTaskListPanel()
-	taskFormContainer := components.CreateTaskForm()
+	// Create services
+	taskService := services.CreateTaskService()
+
+	// Create form
+	taskForm, err := ui.CreateTaskForm(&window, taskService)
+
+	// Check if the form was created properly
+	if err != nil {
+		panic(fmt.Errorf("could not create task form: %w", err))
+	}
+
+	// Create history panel
+	historyPanel := ui.CreateHistoryPanel(&window, taskService, taskForm)
 
 	// The content of the window
 	content := container.New(
 		layout.NewBorderLayout(
 			nil,
 			nil,
-			taskListSeparatorContainer,
+			historyPanel.Container,
 			nil,
 		),
-		taskListSeparatorContainer,
-		taskFormContainer.Container,
+		historyPanel.Container,
+		taskForm.Container,
 	)
-
-	// TODO: add form content
 
 	window.SetContent(content)
 	window.ShowAndRun()
-}
-
-func createTaskListPanel() *fyne.Container {
-	// Create button functionalities for the task list
-	taskListOptions := container.New(
-		layout.NewHBoxLayout(),
-		widget.NewButtonWithIcon("", theme.ContentAddIcon(), func() {
-			fmt.Println("click on add button")
-		}),
-		widget.NewButtonWithIcon("", theme.DeleteIcon(), func() {
-			fmt.Println("click on delete button")
-		}),
-		widget.NewButtonWithIcon("", theme.ViewRefreshIcon(), func() {
-			fmt.Println("click on refresh button")
-		}),
-	)
-
-	// Create the task list container
-	taskListContainer := container.New(
-		layout.NewVBoxLayout(),
-		taskListOptions,
-		// TODO: add live data list
-	)
-
-	// Create boundary separator
-	separationLine := canvas.NewLine(color.White)
-	separationLine.StrokeWidth = 5
-
-	// Create separator container
-	taskListSeparatorContainer := container.New(
-		layout.NewHBoxLayout(),
-		taskListContainer,
-		separationLine,
-	)
-	return taskListSeparatorContainer
 }
 
 // Create the window for the app
