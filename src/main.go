@@ -5,6 +5,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/layout"
 	"github.com/spf13/viper"
 	"task-solver/client/src/services"
@@ -33,7 +34,16 @@ func main() {
 
 	// Check if the form was created properly
 	if err != nil {
-		panic(fmt.Errorf("could not create task form: %w", err))
+		err = fmt.Errorf("could not create task form: %w", err)
+
+		dialog.ShowInformation(
+			"Fatal Error Occurred",
+			err.Error(),
+			window,
+		)
+
+		window.ShowAndRun()
+		panic(err)
 	}
 
 	// Create history panel

@@ -8,6 +8,7 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"sort"
 	"strconv"
 	"task-solver/client/src/model"
 )
@@ -58,6 +59,7 @@ func (taskService *TaskService) GetAllIndexes() ([]string, error) {
 		stringIndexes = append(stringIndexes, strconv.FormatInt(index, 10))
 	}
 
+	sort.Strings(stringIndexes)
 	return stringIndexes, nil
 }
 
