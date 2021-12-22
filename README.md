@@ -22,5 +22,9 @@ the server you should provide the correct ``api.baseUrl``.
 To run the client
 
 ```bash
-go run ./src
+# Build the source code
+go build -o ./bin/client ./src
+
+# Run the client
+./bin/client
 ```
