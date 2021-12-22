@@ -127,7 +127,6 @@ func (historyPanel *HistoryPanel) createButtonPanel() *fyne.Container {
 
 func (historyPanel *HistoryPanel) createRefreshButton() *widget.Button {
 	return widget.NewButtonWithIcon("", theme.ViewRefreshIcon(), func() {
-		fmt.Println("click on refresh button")
 		historyPanel.refreshTaskListData()
 	})
 }
@@ -157,7 +156,6 @@ func (historyPanel *HistoryPanel) refreshTaskListData() {
 
 func (historyPanel *HistoryPanel) createDeleteButton() *widget.Button {
 	return widget.NewButtonWithIcon("", theme.DeleteIcon(), func() {
-		fmt.Println("click on delete button")
 		go func() {
 			dialog.ShowConfirm("Delete ALL Tasks?",
 				"Are you really sure you want to delete ALL Tasks?",
@@ -187,7 +185,6 @@ func (historyPanel *HistoryPanel) createDeleteButton() *widget.Button {
 
 func (historyPanel *HistoryPanel) createAddButton() *widget.Button {
 	return widget.NewButtonWithIcon("", theme.ContentAddIcon(), func() {
-		fmt.Println("click on add button")
 		go func() {
 			historyPanel.ContentPanel.Reset()
 		}()
